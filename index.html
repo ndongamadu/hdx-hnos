@@ -4,20 +4,12 @@
   <title> Humanitarian Needs Overviews data on HDX</title>
   <meta charset="UTF-8">
   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
-  <link rel="stylesheet" type="text/css" href="css/dc.css"/>
   <link rel="stylesheet" type="text/css" href="css/views.css"/>
   <link rel="stylesheet" type="text/css" href="css/leaflet.css"/>
-  <link rel="stylesheet" href="https://openlayers.org/en/v4.1.1/css/ol.css" type="text/css">
-  <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
-  <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
-  <script src="https://openlayers.org/en/v4.1.1/build/ol.js"></script>
-  <script src="https://mapbox.github.io/geojson-vt/geojson-vt-dev.js"></script>
-  <script src="js/d3.min.js"></script>
-  <script src="js/crossfilter.v1.min.js"></script>
-  <script src="js/dc.js"></script>
   <script src="js/jquery.js"></script>
   <script src="js/leaflet.js"></script>
-  <script src="js/dc.leaflet.js"></script>
+  <script src="data/hnos.js"></script>
+
 </head>
 <body>
 
@@ -34,30 +26,16 @@
 
 			<div class="row" id="keyfigure">
 				<div class="col-md-4 keyfigure" id="kf1">
-          <p>
-            Number of People in need<br />
-            5000000
-          </p>
 				</div>
 				<div class="col-md-4 keyfigure" id="kf2">
-          <p>
-            Key Figure 2<br />
-            5000000
-          </p>
 				</div>
 				<div class="col-md-4 keyfigure" id="kf3">
-          <p>
-            Key Figure 3<p>
-              5000000
-            </p>
-          </p>
 				</div>
 			</div>
       <div id="header"></div>
       <!--  zone de la carte -->
 			<div class="row">
 				<div class="col-md-12 map" id="map">
-          <script src="js/code.js"></script>
 				</div>
 			</div>
       <div id="header"></div>
@@ -86,6 +64,6 @@
 		</div>
 	</div>
 </div>
-
+<script src="js/code.js"></script>
 </body>
 </html>

@@ -1,79 +1,86 @@
-var replacer = function(key, value) {
-  if (value.geometry) {
-    var type;
-    var rawType = value.type;
-    var geometry = value.geometry;
+// update the key figures
 
-    if (rawType === 1) {
-      type = geometry.length === 1 ? 'Point' : 'MultiPoint';
-    } else if (rawType === 2) {
-      type = geometry.length === 1 ? 'LineString' : 'MultiLineString';
-    } else if (rawType === 3) {
-      type = geometry.length === 1 ? 'Polygon' : 'MultiPolygon';
-    }
+function updateKeyFigures (country){
+  var kf1 = country.IDP;
+  var kf2 = country.refugees;
+  var kf3 = "500000";
+  document.getElementById("kf1").innerHTML= "<p>Number of People in need<br />" +kf1+"</p>";
+  document.getElementById("kf2").innerHTML = "<p>Number of IDP<br />" +kf2+"</p>";
+  document.getElementById("kf3").innerHTML = "<p>Number of XXX<br />" +kf3+"</p>";
 
-    return {
-      'type': 'Feature',
-      'geometry': {
-        'type': type,
-        'coordinates': geometry.length == 1 ? geometry : [geometry]
-      },
-      'properties': value.tags
-    };
-  } else {
-    return value;
-  }
+}
+
+var map = L.map('map').setView([9.58, 10.37], 3);
+
+L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+
+var geojson ;
+
+var kf1 = L.control();
+
+kf1.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'kf1');
+    this.update();
+    return this._div;
 };
 
-var tilePixels = new ol.proj.Projection({
-  code: 'TILE_PIXELS',
-  units: 'tile-pixels'
-});
+kf1.update = function (props) {
+    this._div.innerHTML = '<h4>US Population Density</h4>' +  (props ?
+        '<b>' + props.name + '</b><br />' + props.name + ' people / mi<sup>2</sup>'
+        : 'Hover over a state');
+};
 
-var map = new ol.Map({
-  layers: [
-    new ol.layer.Tile({
-      source: new ol.source.OSM()
-    })
-  ],
-  target: 'map',
-  view: new ol.View({
-    center: [0, 0],
-    zoom: 2
-  })
-});
+kf1.addTo(map);
 
-var url = 'https://openlayers.org/en/v4.1.1/examples/data/geojson/countries.geojson';
-fetch(url).then(function(response) {
-  return response.json();
-}).then(function(json) {
-  var tileIndex = geojsonvt(json, {
-    extent: 4096,
-    debug: 1
-  });
-  var vectorSource = new ol.source.VectorTile({
-    format: new ol.format.GeoJSON(),
-    tileGrid: ol.tilegrid.createXYZ(),
-    tilePixelRatio: 16,
-    tileLoadFunction: function(tile) {
-      var format = tile.getFormat();
-      var tileCoord = tile.getTileCoord();
-      var data = tileIndex.getTile(tileCoord[0], tileCoord[1], -tileCoord[2] - 1);
+function highlightFeature(e) {
+    var layer = e.target;
 
-      var features = format.readFeatures(
-        JSON.stringify({
-          type: 'FeatureCollection',
-          features: data ? data.features : []
-        }, replacer));
-      tile.setLoader(function() {
-        tile.setFeatures(features);
-        tile.setProjection(tilePixels);
-      });
-    },
-    url: 'data:' // arbitrary url, we don't use it in the tileLoadFunction
-  });
-  var vectorLayer = new ol.layer.VectorTile({
-    source: vectorSource
-  });
-  map.addLayer(vectorLayer);
-});
+    layer.setStyle({
+        weight: 5,
+        color: '#666',
+        dashArray: '',
+        fillOpacity: 0.7
+    });
+
+   if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        layer.bringToFront();
+    }
+    kf1.update(layer.feature.properties);
+    updateKeyFigures(layer.feature.properties);
+}
+
+function resetHighlight(e) {
+    geojson.resetStyle(e.target);
+}
+
+function zoomToFeature(e) {
+    map.fitBounds(e.target.getBounds());
+}
+
+function onEachFeature(feature, layer) {
+    layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight,
+        click: zoomToFeature
+    });
+}
+
+
+function style(feature) {
+    return {
+        fillColor: '#800026',
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.7
+    };
+}
+
+geojson = L.geoJson(hnos, {
+    style: style,
+    onEachFeature: onEachFeature
+  }).addTo(map);
