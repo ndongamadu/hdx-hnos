@@ -8,9 +8,9 @@ function updateKeyFigures (country){
   kf2 = country.refugees;
   kf3 = "500000";
 
-  document.getElementById("kf1").innerHTML= "<p>#Number of People in need : " +kf1+"&nbsp;&nbsp;&nbsp;|</p>";
-  document.getElementById("kf2").innerHTML = "<p>#Number of IDP : " +kf2+"&nbsp;&nbsp;&nbsp;|</p>";
-  document.getElementById("kf3").innerHTML = "<p>#Number of XXX : " +kf3+"</p>";
+  document.getElementById("kf1").innerHTML = "<p>" +kf1+"</p>";
+  document.getElementById("kf2").innerHTML = "<p>" +kf2+"</p>";
+  document.getElementById("kf3").innerHTML = "<p>" +kf3+"</p>";
 
 }
 
@@ -19,8 +19,6 @@ L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
 	maxZoom: 18,
 	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
-
-
 
 var geojson ;
 
@@ -33,8 +31,8 @@ info.onAdd = function (map) {
 };
 
 info.update = function (props) {
-    this._div.innerHTML = '<h4>Humanitarian Needs Overview </h4>' +  (props ?
-        '<b>' + props.name + '</b><br />'
+    this._div.innerHTML = '<h4>Countries with HNO dataset on HDX</h4>' +  (props ?
+        '<b><a href="link">' + props.name + '</a></b><br />'
         : 'Hover over a state');
 };
 
@@ -45,7 +43,7 @@ function highlightFeature(e) {
 
     layer.setStyle({
         weight: 5,
-        color: '#666',
+        color: '#3182bd',//'#666',
         dashArray: '',
         fillOpacity: 0.7
     });
