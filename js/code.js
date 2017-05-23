@@ -1,39 +1,44 @@
 // update the key figures
 
 function updateKeyFigures (country){
-  var kf1 = country.IDP;
-  var kf2 = country.refugees;
-  var kf3 = "500000";
-  document.getElementById("kf1").innerHTML= "<p>Number of People in need<br />" +kf1+"</p>";
-  document.getElementById("kf2").innerHTML = "<p>Number of IDP<br />" +kf2+"</p>";
-  document.getElementById("kf3").innerHTML = "<p>Number of XXX<br />" +kf3+"</p>";
+  var kf1 = "----";
+  var kf2 = "----";
+  var kf3 = "----";
+  kf1 = country.IDP;
+  kf2 = country.refugees;
+  kf3 = "500000";
+
+  document.getElementById("kf1").innerHTML= "<p>#Number of People in need : " +kf1+"&nbsp;&nbsp;&nbsp;|</p>";
+  document.getElementById("kf2").innerHTML = "<p>#Number of IDP : " +kf2+"&nbsp;&nbsp;&nbsp;|</p>";
+  document.getElementById("kf3").innerHTML = "<p>#Number of XXX : " +kf3+"</p>";
 
 }
 
 var map = L.map('map').setView([9.58, 10.37], 3);
-
-L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
+	maxZoom: 18,
+	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
+
 
 
 var geojson ;
 
-var kf1 = L.control();
+var info = L.control();
 
-kf1.onAdd = function (map) {
-    this._div = L.DomUtil.create('div', 'kf1');
+info.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'info');
     this.update();
     return this._div;
 };
 
-kf1.update = function (props) {
-    this._div.innerHTML = '<h4>US Population Density</h4>' +  (props ?
-        '<b>' + props.name + '</b><br />' + props.name + ' people / mi<sup>2</sup>'
+info.update = function (props) {
+    this._div.innerHTML = '<h4>Humanitarian Needs Overview </h4>' +  (props ?
+        '<b>' + props.name + '</b><br />'
         : 'Hover over a state');
 };
 
-kf1.addTo(map);
+info.addTo(map);
 
 function highlightFeature(e) {
     var layer = e.target;
@@ -48,7 +53,7 @@ function highlightFeature(e) {
    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
         layer.bringToFront();
     }
-    kf1.update(layer.feature.properties);
+    info.update(layer.feature.properties);
     updateKeyFigures(layer.feature.properties);
 }
 
@@ -64,19 +69,19 @@ function onEachFeature(feature, layer) {
     layer.on({
         mouseover: highlightFeature,
         mouseout: resetHighlight,
-        click: zoomToFeature
+        // click: zoomToFeature
     });
 }
 
 
 function style(feature) {
     return {
-        fillColor: '#800026',
+        fillColor: '#3182bd',
         weight: 2,
         opacity: 1,
-        color: 'white',
-        dashArray: '3',
-        fillOpacity: 0.7
+        color: 'red',
+        // dashArray: '3',
+        fillOpacity: 0.5
     };
 }
 
