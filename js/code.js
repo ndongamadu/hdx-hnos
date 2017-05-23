@@ -31,8 +31,8 @@ info.onAdd = function (map) {
 };
 
 info.update = function (props) {
-    this._div.innerHTML = '<h4>Countries with HNO dataset on HDX</h4>' +  (props ?
-        '<b><a href="link">' + props.name + '</a></b><br />'
+    this._div.innerHTML = '<h4>HNO</h4>' +  (props ?
+        '<a target="_blank" href="'+props.hdx+'">' + props.name + ' dataset</a><br />'
         : 'Hover over a state');
 };
 

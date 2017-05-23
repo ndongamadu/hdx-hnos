@@ -38,15 +38,16 @@
   font-family:'Helvetica Neue';
   font-weight: 300;
   text-align: center;
-  font-size: 19px;
+  font-size: 17px;
   color:#636363;
 
 }
 .keyfigure div{
-  /*font-family: 'Helvetica Neue';*/
-  font-size: 19px;
+  font-family: 'Helvetica Neue';
+  font-size: 21px;
   background-color: #e0ecf4;
   text-align: center;
+
 
 }
 
@@ -60,7 +61,7 @@
 
 .info {
     padding: 6px 8px;
-    font: 14px/16px Arial, Helvetica, sans-serif;
+    font: 14px/17px Arial, Helvetica, sans-serif;
     background: white;
     background: rgba(255,255,255,0.8);
     box-shadow: 0 0 15px rgba(0,0,0,0.2);
