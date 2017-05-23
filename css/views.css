@@ -1,16 +1,29 @@
+/*#fulltitle{
+  background-color: #C6C6C6;
+
+}*/
+
 #title{
   font-family: 'Helvetica Neue';
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 300;
   text-align: center;
+  /*color: #e41a1c ;*/
   color: #3182bd;
 }
 
 #accroche{
   font-family: 'Helvetica Neue';
-  font-size: 17px;
-  font-weight: 300;
-  text-align: center;
+  /*font-size: 15px;*/
+  /*font-weight: 300;*/
+  /*text-align: center;*/
+  background-color: #deebf7;
+
+  /*color : #e41a1c ;*/
+}
+
+#accroche .span {
+  color: #636363;
 }
 
 #map{
@@ -18,23 +31,7 @@
   height: 600px;
 }
 
-/*.keyfigure{
-  width: 200px;
-  height: 80px;
-  background-color: #e0ecf4;
-  /*padding-left: 5px;
-}*/
-
 .keyfigure p{
-
-  /*background-color: #e0ecf4;*/
-  /*font-family: 'Lato', futura, georgia;
-  letter-spacing: 1px;
-  line-height: 15px;
-  text-transform: Uppercase;
-  text-align: center;
-  font-weight: bold;
-  color: #525252;*/
   font-family:'Helvetica Neue';
   font-weight: 300;
   text-align: center;
@@ -47,12 +44,9 @@
   font-size: 21px;
   background-color: #e0ecf4;
   text-align: center;
-
-
 }
 
 #header{
-  /*padding-left: 5px;*/
   border-bottom-color: #000000;
   border-bottom-style: solid;
   border-bottom-width: 1px;
