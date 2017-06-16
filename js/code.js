@@ -1,26 +1,17 @@
-// update the key figures
-
-function updateKeyFigures (country){
-  var kf1 = "----";
-  var kf2 = "----";
-  var kf3 = "----";
-  kf1 = country.IDP;
-  kf2 = country.refugees;
-  kf3 = "500000";
-
-  document.getElementById("kf1").innerHTML = "<p>" +kf1+"</p>";
-  document.getElementById("kf2").innerHTML = "<p>" +kf2+"</p>";
-  document.getElementById("kf3").innerHTML = "<p>" +kf3+"</p>";
-
-}
-
 var map = L.map('map').setView([9.58, 10.37], 3);
-L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
-	maxZoom: 18,
-	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+L.tileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, Tiles courtesy of <a href="http://hot.openstreetmap.org/" target="_blank">Humanitarian OpenStreetMap Team</a>'
 }).addTo(map);
 
-var geojson ;
+//grayish map
+//var map = L.map('map').setView([9.58, 10.37], 3);
+//L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
+//    maxZoom: 18,
+//    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+//}).addTo(map);
+
+var geojson;
 
 var info = L.control();
 
@@ -31,9 +22,10 @@ info.onAdd = function (map) {
 };
 
 info.update = function (props) {
-    this._div.innerHTML = '<h4>HNO</h4>' +  (props ?
-        '<a target="_blank" href="'+props.hdx+'">' + props.name + ' dataset</a><br />'
-        : 'Hover over a state');
+
+    this._div.innerHTML = '<h4>HNO</h4>' + (props ?
+        '<h5>Availability: ' + (props.hno).toUpperCase() + '</h5><a target="_blank" href="' + props.hdx + '">' + props.name + ' dataset</a><br />' :
+        'Hover over a state');
 };
 
 info.addTo(map);
@@ -43,16 +35,17 @@ function highlightFeature(e) {
 
     layer.setStyle({
         weight: 5,
-        color: '#3182bd',//'#666',
-        dashArray: '',
-        fillOpacity: 0.7
+        // color: '#ff4000', //'#3182bd', //'#666',
+        //dashArray: '',
+        //fillOpacity: 0.7
     });
 
-   if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
         layer.bringToFront();
     }
+
     info.update(layer.feature.properties);
-    updateKeyFigures(layer.feature.properties);
+    //updateKeyFigures(layer.feature.properties);
 }
 
 function resetHighlight(e) {
@@ -67,23 +60,36 @@ function onEachFeature(feature, layer) {
     layer.on({
         mouseover: highlightFeature,
         mouseout: resetHighlight,
-        // click: zoomToFeature
+        click: zoomToFeature
     });
+    layer.bindPopup("alors : " + feature.properties.name);
 }
 
 
 function style(feature) {
-    return {
-        fillColor: '#3182bd',
-        weight: 2,
-        opacity: 1,
-        color: 'red',
-        // dashArray: '3',
-        fillOpacity: 0.5
-    };
+    if (feature.properties.hno == 'yes') {
+        return {
+            fillColor: '#00ffff',
+            weight: 2,
+            opacity: 1,
+            color: 'red',
+            fillOpacity: 0.5
+        };
+    } else if (feature.properties.hno == 'no') {
+        return {
+            fillColor: '#4000ff',
+            weight: 2,
+            opacity: 1,
+            color: 'red',
+            //dashArray: '3',
+            fillOpacity: 0.5
+        };
+    }
+
 }
+
 
 geojson = L.geoJson(hnos, {
     style: style,
     onEachFeature: onEachFeature
-  }).addTo(map);
+}).addTo(map);
