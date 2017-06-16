@@ -342,7 +342,7 @@ var hnos = {
                 "id": "MLI",
                 "name": "Mali",
                 "hdx": "https://data.humdata.org/dataset/mali-humanitarian-needs-overview-2017",
-                "hno": 'no'
+                "hno": 'yes'
             },
             "geometry": {
                 "type": "MultiPolygon",
