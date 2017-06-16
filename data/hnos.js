@@ -644,7 +644,7 @@ var hnos = {
             "properties": {
                 "id": "IRQ",
                 "name": "Iraq",
-                "hno": 'no'
+                "hno": 'yes'
             },
             "geometry": {
                 "type": "MultiPolygon",
