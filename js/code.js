@@ -62,24 +62,24 @@ function onEachFeature(feature, layer) {
         mouseout: resetHighlight,
         click: zoomToFeature
     });
-    layer.bindPopup("alors : " + feature.properties.name);
+//    layer.bindPopup("alors : " + feature.properties.name);
 }
 
 
 function style(feature) {
     if (feature.properties.hno == 'yes') {
         return {
-            fillColor: '#00ffff',
+            fillColor: '#FF493D',
             weight: 2,
-            opacity: 1,
+            opacity: 0.6,
             color: 'red',
             fillOpacity: 0.5
         };
     } else if (feature.properties.hno == 'no') {
         return {
-            fillColor: '#4000ff',
+            fillColor: '#BBBBBB',
             weight: 2,
-            opacity: 1,
+            opacity: 0.6,
             color: 'red',
             //dashArray: '3',
             fillOpacity: 0.5
