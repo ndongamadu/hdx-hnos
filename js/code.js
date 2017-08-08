@@ -1,7 +1,7 @@
 var map = L.map('map',
 
     {
-        maxZoom: 4,
+        maxZoom: 5,
         minZoom: 2
     });
 
