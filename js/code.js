@@ -1,56 +1,40 @@
-//var map = L.map('map').setView([9.58, 10.37], 3);
-//L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-//    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-//    maxZoom: 18,
-//    id: 'mapbox.streets',
-//    accessToken: 'pk.eyJ1IjoicmVsaWVmd2ViIiwiYSI6IldYR2ZuV3cifQ.eSPZMZWE6UyLtO0OH_-qrw'
-//}).addTo(map);
+var map = L.map('map',
 
-var map = L.map('map').setView([9.58, 10.37], 3);
+    {
+        maxZoom: 4,
+        minZoom: 2
+    });
+
+map.setView([9.58, 10.37], 3);
+
+//westlimit=-170.8; southlimit=-84.9; eastlimit=-167.3; northlimit=84.3
+//map.fitBounds([[9.58, 10.37], [0, 0]], 3);
+
 L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/traffic-day-v2/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYW1hZG91MTciLCJhIjoib3NhRnROQSJ9.lW0PVXVIS-j8dGaULTyupg', {
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-    maxZoom: 18
-    //id: 'mapbox.streets',
-    //accessToken: 'pk.eyJ1IjoicmVsaWVmd2ViIiwiYSI6IldYR2ZuV3cifQ.eSPZMZWE6UyLtO0OH_-qrw'
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'
 }).addTo(map);
 
 
 
 
-
-
-
-// var map = L.map('map').setView([9.58, 10.37], 3);
-// L.tileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
-//     maxZoom: 18,
-//     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, Tiles courtesy of <a href="http://hot.openstreetmap.org/" target="_blank">Humanitarian OpenStreetMap Team</a>'
-// }).addTo(map);
-
-//grayish map
-//var map = L.map('map').setView([9.58, 10.37], 3);
-//L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
-//    maxZoom: 18,
-//    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-//}).addTo(map);
-
 var geojson;
 
-var info = L.control();
+//var info = L.control();
+//
+//info.onAdd = function (map) {
+//    this._div = L.DomUtil.create('div', 'info');
+//    this.update();
+//    return this._div;
+//};
 
-info.onAdd = function (map) {
-    this._div = L.DomUtil.create('div', 'info');
-    this.update();
-    return this._div;
-};
+//info.update = function (props) {
+//
+//    this._div.innerHTML = '<h4>HNO</h4>' + (props ?
+//        '<h5>Availability: ' + (props.hno).toUpperCase() + '</h5><a target="_blank" href="' + props.hdx + '">' + props.name + ' dataset</a><br />' :
+//        'Hover over a state');
+//};
 
-info.update = function (props) {
-
-    this._div.innerHTML = '<h4>HNO</h4>' + (props ?
-        '<h5>Availability: ' + (props.hno).toUpperCase() + '</h5><a target="_blank" href="' + props.hdx + '">' + props.name + ' dataset</a><br />' :
-        'Hover over a state');
-};
-
-info.addTo(map);
+//info.addTo(map);
 
 function highlightFeature(e) {
     var layer = e.target;
@@ -66,25 +50,30 @@ function highlightFeature(e) {
         layer.bringToFront();
     }
 
-    info.update(layer.feature.properties);
-    //updateKeyFigures(layer.feature.properties);
+    //    info.update(layer.feature.properties);
+    //    //updateKeyFigures(layer.feature.properties);
 }
 
 function resetHighlight(e) {
     geojson.resetStyle(e.target);
 }
-
-function zoomToFeature(e) {
-    map.fitBounds(e.target.getBounds());
-}
+//
+//function zoomToFeature(e) {
+//    // map.fitBounds(e.target.getBounds());
+//}
 
 function onEachFeature(feature, layer) {
     layer.on({
         mouseover: highlightFeature,
         mouseout: resetHighlight,
-        click: zoomToFeature
+        //click: zoomToFeature
     });
-//    layer.bindPopup("alors : " + feature.properties.name);
+
+    if (feature.properties.hdx != '') {
+        layer.bindPopup('<h4>' + feature.properties.name + '</h4><h5><a target="_blank" href="' + feature.properties.hdx + '"> View dataset on HDX </a></h5>');
+    } else {
+        layer.bindPopup('<h4>' + feature.properties.name + '</h4><h5>Dataset not available</h5>');
+    }
 }
 
 
