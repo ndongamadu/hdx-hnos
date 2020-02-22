@@ -12,9 +12,13 @@
     color: #3182bd;
 }
 
+.quickCharts {
+    display: none;
+}
+
 #map {
     width: 300;
-    height: 600px;
+    height: 700px;
 }
 
 #header {
