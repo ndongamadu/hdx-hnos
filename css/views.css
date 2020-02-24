@@ -1,19 +1,17 @@
-/*#fulltitle{
-  background-color: #C6C6C6;
-
-}*/
-
-#h2 {
-    font-family: 'Helvetica Neue';
+body, h1, h2, h3, h4, h5, h6 {
+    font-family: 'Source Sans Pro', sans-serif;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+}
+h2{
     font-size: 22px;
-    font-weight: 300;
-    text-align: center;
-    /*color: #e41a1c ;*/
-    color: #3182bd;
 }
 
-.quickCharts {
-    display: none;
+#description {
+    font-size: 14px;
+    font-style: italic;
+    color: #333;
 }
 
 #map {
@@ -27,6 +25,17 @@
     border-bottom-width: 1px;
     margin-bottom: 15px;
     margin-top: 10px;
+}
+
+div.circle {
+    /*background-color: #A4D65E #ff7800;*/
+    background-color: #A4D65E;
+    border-color: red;
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 2px;
+    width:18px;
+    height:18px;
 }
 
 .info {
@@ -50,7 +59,4 @@
     opacity: 0.7;
 }
 
-#description {
-    font-size: 12px;
-    font-style: italic;
-}
+

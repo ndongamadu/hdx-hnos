@@ -7,6 +7,14 @@ $(document).ready(function(){
         return [d.latitude, d.longitude]
 
     }
+    function createMarker (d) {
+        return L.marker([d.latitude, d.longitude], {
+            icon: L.divIcon({
+                className: 'circle',
+                iconSize: null//[15,15]
+            })
+        }) 
+    }
 
     function createMap (hno) {
 
@@ -23,8 +31,7 @@ $(document).ready(function(){
         }).addTo(map); 
 
         for (var i = 0; i < hno.length; i++) {
-            L.circleMarker(getLatLon(hno[i])).addTo(map)
-                .bindPopup('<h4>'+hno[i].name+'</h4>');
+            createMarker(hno[i]).addTo(map).bindPopup('<h4>'+hno[i].name+'</h4>');
         }
 
 
