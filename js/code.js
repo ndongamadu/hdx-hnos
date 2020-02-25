@@ -1,12 +1,37 @@
 $(document).ready(function(){
     let hnosLink = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSMmlKxX6PV391tanxo6aKltrtYcF4VTbXtsRtn66Fr4CY_VEjbEpJ9AlZzyIVapdKaOKZwTjyUL8IZ/pub?gid=0&single=true&output=csv';
     let world = 'data/coordinates.csv';
-    let hnoData, hnoCountries, worldC = '';
+    let hnoData, hnoCountries, yearArr = '';
 
     function getLatLon(d){
         return [d.latitude, d.longitude]
 
     }
+
+    function formatPiN (d) {
+        return d3.format('.2s')(d);
+         
+    }
+
+    function popUp (d) {
+        let popup = '';
+        popup += '<h3>'+formatPiN(d.pin)+' PiN</h3>';
+        popup += '<h4><a href="'+d.dataset+'" target="blank">'+d.name+" "+d.year+' HNO dataset</a></h4>';
+
+        return popup;
+    }
+
+    function createDropdown (arr) {
+        //sort arr
+        var drpdwn = '<label>Year </label><select class="dropdown" id="year">';
+        for (var i = 0; i < arr.length; i++) {
+             i==0 ? drpdwn += '<option value="'+i+'" selected >'+arr[i]+'</option>':
+             drpdwn += '<option value="'+i+'">'+arr[i]+'</option>';
+         } 
+        drpdwn += '</select>';
+        $('.yearSelections').append(drpdwn);
+    }
+
     function createMarker (d) {
         return L.marker([d.latitude, d.longitude], {
             icon: L.divIcon({
@@ -20,8 +45,8 @@ $(document).ready(function(){
 
         var map = L.map('map',
         {
-            maxZoom: 5,
-            minZoom: 2
+            maxZoom: 20,
+            // minZoom: 2
         });
 
         map.setView([9.58, 10.37], 3); 
@@ -31,7 +56,7 @@ $(document).ready(function(){
         }).addTo(map); 
 
         for (var i = 0; i < hno.length; i++) {
-            createMarker(hno[i]).addTo(map).bindPopup('<h4>'+hno[i].name+'</h4>');
+            createMarker(hno[i]).addTo(map).bindPopup(popUp(hno[i]));
         }
 
 
@@ -44,6 +69,7 @@ $(document).ready(function(){
             d3.csv(world)
         ]).then(function(data){
             hnoData = [];
+            yearArr = [];
             data[0].forEach(function(d, i){
                 var lat, lon;
                 for (k in data[1]){
@@ -63,8 +89,9 @@ $(document).ready(function(){
                     longitude: lon
                 }
                 hnoData.push(obj);
+                yearArr.includes(obj.year) ? '': yearArr.push(obj.year);
             });
-
+            createDropdown(yearArr);
             createMap(hnoData);
             
 
