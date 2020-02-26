@@ -8,14 +8,14 @@ $(document).ready(function(){
 
     }
 
-    function formatPiN (d) {
-        return d3.format('.2s')(d);
+    var pinNumber = function formatPiN (d) {
+        return d3.format(',.0f')(d);
          
     }
 
     function popUp (d) {
         let popup = '';
-        popup += '<h3>'+formatPiN(d.pin)+' PiN</h3>';
+        popup += '<h3>'+pinNumber(d.pin)+' PiN</h3>';
         popup += '<h4><a href="'+d.dataset+'" target="blank">'+d.name+" "+d.year+' HNO dataset</a></h4>';
 
         return popup;
@@ -83,7 +83,7 @@ $(document).ready(function(){
                     year: d['Year'],
                     country_code: d['Country ISO3'],
                     name: d['Country'],
-                    pin: d['PiN'],
+                    pin: d.PiN,
                     dataset: d['HNO dataset'],
                     latitude: lat,
                     longitude: lon
